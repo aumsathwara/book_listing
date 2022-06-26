@@ -1,0 +1,22 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+    Buy Your Books Here
+{% endblock %}
+
+{%block content%}
+    <h1>{{bl.Db_Name}}</h1>
+    <ul>
+        {% for item in bl.book_item_set.all %}
+            <li>
+                {% if item.cart_boolean == False %}
+                    <h3>{{item.booktitle}}</h3>
+                    <button name='cart'>Add To Cart</button>
+                {% elif item.cart_boolean == True %}
+                    <h3>{{item.booktitle}}</h3>
+                    <button name='cart'>Remove From Cart</button>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{%endblock%}

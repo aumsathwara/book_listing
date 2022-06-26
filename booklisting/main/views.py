@@ -1,7 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Book_Item, Book_List
 
 
 # Create your views here.
-def index(response):
-    return HttpResponse("<h1>Home Page</h1>")
+def home(response):
+    bl = Book_List.objects.get(id=1)
+    return render(response, 'main/home.html', {"bl":bl})
+
+
+def cart(response):
+    bl = Book_List.objects.get(id=1)
+    return render(response, 'main/cart.html', {"bl":bl})
