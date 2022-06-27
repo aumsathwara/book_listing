@@ -12,3 +12,8 @@ def home(response):
 def cart(response):
     bl = Book_List.objects.get(id=1)
     return render(response, 'main/cart.html', {"bl":bl})
+
+# def addedtocart(response):
+#     # bl = Book_List.objects.get(id=1)
+#     # item = bl.book_item_set.get(id=val)
+#     return HttpResponse("Hello")

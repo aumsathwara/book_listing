@@ -5,18 +5,20 @@
 {% endblock %}
 
 {%block content%}
+<form method='POST' action='#'>
+    {%csrf_token%}
     <h1>{{bl.Db_Name}}</h1>
     <ul>
         {% for item in bl.book_item_set.all %}
             <li>
                 {% if item.cart_boolean == False %}
                     <h3>{{item.booktitle}}</h3>
-                    <button name='cart'>Add To Cart</button>
+                    <button type="submit" name='c{{item.id}}' >Trial</button>
                 {% elif item.cart_boolean == True %}
                     <h3>{{item.booktitle}}</h3>
-                    <button name='cart'>Remove From Cart</button>
                 {% endif %}
             </li>
         {% endfor %}
     </ul>
+</form>
 {%endblock%}
