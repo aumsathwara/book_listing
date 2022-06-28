@@ -5,6 +5,7 @@
 {% endblock %}
 
 {%block content%}
+<form method = "POST" action = "cart_update">
     {% csrf_token %}
     <h1>Your Cart</h1>
     <ul>
@@ -12,8 +13,11 @@
             {% if item.cart_boolean == True %}
                 <li>
                     <h3>{{item.booktitle}}</h3>
+                    <button name = "m{{item.id}}" value = "minus">-</button> {{item.count}}
+                    <button name = "p{{item.id}}" value = "plus">+</button>
                 </li>
             {% endif %}
         {% endfor %}
     </ul>
+</form>
 {%endblock%}
