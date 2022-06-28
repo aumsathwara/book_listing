@@ -13,7 +13,15 @@ def cart(response):
     bl = Book_List.objects.get(id=1)
     return render(response, 'main/cart.html', {"bl":bl})
 
-# def addedtocart(response):
-#     # bl = Book_List.objects.get(id=1)
-#     # item = bl.book_item_set.get(id=val)
-#     return HttpResponse("Hello")
+def addedtocart(response):
+    bl = Book_List.objects.get(id=1)
+    bi = Book_Item.objects.all()
+    for item in bi:
+        
+        if response.POST.get('c'+str(item.id))=="clicked":
+            print(item.id)
+            item.cart_boolean = True
+            print(item.cart_boolean)
+            item.save()
+            
+    return render(response, 'main/home.html', {"bl":bl})

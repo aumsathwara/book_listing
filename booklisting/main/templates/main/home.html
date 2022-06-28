@@ -5,7 +5,7 @@
 {% endblock %}
 
 {%block content%}
-<form method='POST' action='#'>
+<form method='POST' action= "{% url 'addedtocart' %}">
     {%csrf_token%}
     <h1>{{bl.Db_Name}}</h1>
     <ul>
@@ -13,9 +13,10 @@
             <li>
                 {% if item.cart_boolean == False %}
                     <h3>{{item.booktitle}}</h3>
-                    <button type="submit" name='c{{item.id}}' >Trial</button>
+                    <button name='c{{item.id}}' value='clicked'>Trial</button>
                 {% elif item.cart_boolean == True %}
                     <h3>{{item.booktitle}}</h3>
+                    
                 {% endif %}
             </li>
         {% endfor %}
