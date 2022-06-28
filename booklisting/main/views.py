@@ -19,9 +19,21 @@ def addedtocart(response):
     for item in bi:
         
         if response.POST.get('c'+str(item.id))=="clicked":
-            print(item.id)
             item.cart_boolean = True
-            print(item.cart_boolean)
+            item.count = 1
+            item.save()
+        
+        if response.POST.get('m' + str(item.id)) == 'minus':
+            if item.count > 1:
+                item.count -=1
+                item.save()
+            elif item.count == 1:
+                item.cart_boolean = False
+                item.save()
+
+        elif response.POST.get('p' + str(item.id)) == 'plus':
+            item.count +=1
             item.save()
             
+
     return render(response, 'main/home.html', {"bl":bl})

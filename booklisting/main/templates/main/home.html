@@ -4,6 +4,7 @@
     Buy Your Books Here
 {% endblock %}
 
+
 {%block content%}
 <form method='POST' action= "{% url 'addedtocart' %}">
     {%csrf_token%}
@@ -13,13 +14,14 @@
             <li>
                 {% if item.cart_boolean == False %}
                     <h3>{{item.booktitle}}</h3>
-                    <button name='c{{item.id}}' value='clicked'>Trial</button>
+                    <button name='c{{item.id}}' value='clicked'>Add to Cart</button>
                 {% elif item.cart_boolean == True %}
                     <h3>{{item.booktitle}}</h3>
-                    
+                    <button name='m{{item.id}}' value="minus"> - </button> {{item.count}} <button name='p{{item.id}}' value="plus"> + </button>
                 {% endif %}
             </li>
         {% endfor %}
     </ul>
 </form>
 {%endblock%}
+
