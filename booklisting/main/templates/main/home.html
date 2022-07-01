@@ -6,22 +6,75 @@
 
 
 {%block content%}
+<input id = "search_here" class="form-control mb-3" placeholder="Search here"/>
+
+    <div id = "box">
+        {% for item in object_list %}
+          <b>{{item}}</b><br>
+        {% endfor %}
+    </div>
+
+{% block script %}
+
+<script>
+    const data = '{{qs_json}}'.toLowerCase();
+    console.log(data);
+    const rdata = JSON.parse(data.replace(/&quot;/g, '"'));
+    console.log(rdata);
+
+    const input = document.getElementById('search_here');
+    console.log(input);
+
+    let filterArr = [];
+
+    function titleCase(string) {
+      var sentence = string.toLowerCase().split(" ");
+      for(var i = 0; i< sentence.length; i++){
+         sentence[i] = sentence[i][0].toUpperCase() + sentence[i].slice(1);
+      }
+       return sentence.join(" ");
+    }
+
+    input.addEventListener('keyup',(e)=>{
+        box.innerHTML = "";
+        filteredArr = rdata.filter(Book_Item => Book_Item['booktitle'].includes(e.target.value.toLowerCase().trim()))
+        console.log(filteredArr)
+
+        if (filteredArr.length > 0){
+            filteredArr.map(Book_Item => {
+                box.innerHTML += '<b>'+titleCase(Book_Item['booktitle'])+'</b><br>'
+            })
+        }else{
+            box.innerHTML = "<b>no results founds</b>"
+        }
+    })
+
+</script>
+
+{% endblock script %}
+
+
+
 <form method='POST' action= "{% url 'addedtocart' %}">
     {%csrf_token%}
     <h1>{{bl.Db_Name}}</h1>
+
     <ul>
         {% for item in bl.book_item_set.all %}
             <li>
                 {% if item.cart_boolean == False %}
                     <h3>{{item.booktitle}}</h3>
-                    <button name='c{{item.id}}' value='clicked'>Add to Cart</button>
+                    <button name='c{{item.id}}' value='clicked' class="btn btn-outline-primary">Add to Cart</button>
                 {% elif item.cart_boolean == True %}
                     <h3>{{item.booktitle}}</h3>
-                    <button name='m{{item.id}}' value="minus"> - </button> {{item.count}} <button name='p{{item.id}}' value="plus"> + </button>
+                    <button name='m{{item.id}}' value="minus" class="btn btn-outline-danger"> - </button> {{item.count}} <button name='p{{item.id}}' value="plus" class="btn btn-outline-success"> + </button>
                 {% endif %}
             </li>
         {% endfor %}
+
+
     </ul>
 </form>
 {%endblock%}
+
 

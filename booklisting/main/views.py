@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Book_Item, Book_List
-
+from django.views.generic import ListView
+import json
 
 # Create your views here.
 def home(response):
     bl = Book_List.objects.get(id=1)
     return render(response, 'main/home.html', {"bl":bl})
-
 
 def cart(response):
     bl = Book_List.objects.get(id=1)
@@ -55,3 +55,24 @@ def cart_update(response):
             item.save()
         
     return render(response, 'main/cart.html', {"bl":bl})
+
+#
+# def searchposts(response):
+
+    # b1 = Book_List.objects.get(id=1)
+    # b2 = b1.book_item_set.all()
+    # c = list(b2.values_list())
+    # d = []
+    # for items in range(len(c)):
+    #     d.append(c[items][2].lower())
+    # return render(response, 'main/home.html',{'d':d})
+
+class InfoListView(ListView):
+    model = Book_Item
+    template_name = 'main/home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["qs_json"] = json.dumps(list(Book_Item.objects.values()))
+        return context
+
