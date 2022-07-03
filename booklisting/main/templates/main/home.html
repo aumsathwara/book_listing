@@ -6,22 +6,37 @@
 
 
 {%block content%}
-<form method='POST' action= "{% url 'addedtocart' %}">
+<a href = "/search">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search-heart" viewBox="0 0 16 16">
+      <path d="M6.5 4.482c1.664-1.673 5.825 1.254 0 5.018-5.825-3.764-1.664-6.69 0-5.018Z"/>
+      <path d="M13 6.5a6.471 6.471 0 0 1-1.258 3.844c.04.03.078.062.115.098l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1.007 1.007 0 0 1-.1-.115h.002A6.5 6.5 0 1 1 13 6.5ZM6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z"/>
+    </svg>
+</a>
+<a href = "/cart">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">
+      <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
+    </svg>
+</a>
+<form method='POST' action= "{% url 'home' %}">
     {%csrf_token%}
     <h1>{{bl.Db_Name}}</h1>
+
     <ul>
         {% for item in bl.book_item_set.all %}
             <li>
                 {% if item.cart_boolean == False %}
                     <h3>{{item.booktitle}}</h3>
-                    <button name='c{{item.id}}' value='clicked'>Add to Cart</button>
+                    <button name='c{{item.id}}' value='clicked' class="btn btn-outline-primary">Add to Cart</button>
                 {% elif item.cart_boolean == True %}
                     <h3>{{item.booktitle}}</h3>
-                    <button name='m{{item.id}}' value="minus"> - </button> {{item.count}} <button name='p{{item.id}}' value="plus"> + </button>
+                    <button name='m{{item.id}}' value="minus" class="btn btn-outline-danger"> - </button> {{item.count}} <button name='p{{item.id}}' value="plus" class="btn btn-outline-success"> + </button>
                 {% endif %}
             </li>
         {% endfor %}
+
+
     </ul>
 </form>
 {%endblock%}
+
 

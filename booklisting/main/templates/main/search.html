@@ -1,0 +1,85 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+    SEARCH
+{% endblock %}
+
+
+{%block content%}
+<form method='POST'action= "{% url 'home' %}">
+    {%csrf_token%}
+
+<input id = "search_here" class="form-control mb-3" placeholder="Search here"/>
+
+    <div id = "box">
+        {% for item in object_list %}
+<!--          <b>{{item}}</b><br>-->
+                {% if item.cart_boolean == False %}
+                    <h3>{{item.booktitle}}</h3>
+                    <button name='c{{item.id}}' value='clicked' class="btn btn-outline-primary">Add to Cart</button>
+                {% elif item.cart_boolean == True %}
+                    <h3>{{item.booktitle}}</h3>
+                    <button name='m{{item.id}}' value="minus" class="btn btn-outline-danger"> - </button> {{item.count}} <button name='p{{item.id}}' value="plus" class="btn btn-outline-success"> + </button>
+                {% endif %}
+        {% endfor %}
+    </div>
+</form>
+
+
+{% block script %}
+
+<script>
+    const data = '{{qs_json}}'.toLowerCase();
+    console.log(data);
+    const rdata = JSON.parse(data.replace(/&quot;/g, '"'));
+    console.log(rdata);
+
+    const input = document.getElementById('search_here');
+    console.log(input);
+
+    let filterArr = [];
+
+    function titleCase(string) {
+      var sentence = string.toLowerCase().split(" ");
+      for(var i = 0; i< sentence.length; i++){
+         sentence[i] = sentence[i][0].toUpperCase() + sentence[i].slice(1);
+      }
+       return sentence.join(" ");
+    }
+
+    function check(item){
+
+        item_id = item['id'];
+        item_count = item['count'];
+        boolean = item['cart_boolean'];
+        console.log(item_count);
+
+        if (boolean == false){
+            return `<button name='c`+item_id+`' value='clicked' class="btn btn-outline-primary" >Added to Cart</button>`
+        }
+        else{
+            return `<button name='m`+item_id+`' value='minus' class='btn btn-outline-danger'> - </button>`+item_count+`<button name='p`+item_id+`' value='plus' class='btn btn-outline-success'> + </button>`
+        }
+    }
+
+    input.addEventListener('keyup',(e)=>{
+        box.innerHTML = "";
+        filteredArr = rdata.filter(Book_Item => Book_Item['booktitle'].includes(e.target.value.toLowerCase().trim()))
+        console.log(filteredArr)
+
+        if (filteredArr.length > 0){
+            filteredArr.map(Book_Item => {
+                box.innerHTML += '<b>'+titleCase(Book_Item['booktitle'])+'</b>'+check(Book_Item)+'<br>'
+            })
+        }else{
+            box.innerHTML = "<b>no results founds</b>"
+        }
+    })
+
+</script>
+
+{% endblock script %}
+
+{%endblock%}
+
+
