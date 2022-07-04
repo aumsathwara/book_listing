@@ -4,39 +4,211 @@
     Buy Your Books Here
 {% endblock %}
 
+{% block style %}
+<style>
+    /* Importing fonts from Google */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+    /* Reseting */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+  body {
+        background: linear-gradient(to right, #bdc3c7 , #2c3e50);
+        min-height: 100vh;
+    }
+
+    .owl-carousel .owl-item {
+        transition: all 0.3s ease-in-out;
+    }
+
+    .owl-carousel .owl-item .card {
+        padding: 30px;
+        position: relative;
+    }
+
+    .owl-carousel .owl-stage-outer {
+        overflow-y: auto !important;
+        padding-bottom: 40px;
+    }
+
+    .owl-carousel .owl-item img {
+        height: 200px;
+        object-fit: cover;
+        border-radius: 6px;
+    }
+
+    .owl-carousel .owl-item .card .name {
+        position: absolute;
+        bottom: -30px;
+        left: 33%;
+        color: #101c81;
+        font-size: 1.1rem;
+        font-weight: 600;
+        background-color: aquamarine;
+        padding: 0.3rem 0.4rem;
+        border-radius: 5px;
+        box-shadow: 2px 3px 15px #3c405a;
+    }
+
+    .owl-carousel .owl-item .card {
+        opacity: 0.2;
+        transform: scale3d(0.8, 0.8, 0.8);
+        transition: all 0.3s ease-in-out;
+    }
+
+    .owl-carousel .owl-item.active.center .card {
+        opacity: 1;
+        transform: scale3d(1, 1, 1);
+    }
+
+    .owl-carousel .owl-dots {
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+    }
+
+    .owl-theme .owl-dots .owl-dot span {
+        height: 20px;
+        background: #2a6ba3 !important;
+        border-radius: 2px !important;
+        opacity: 0.8;
+    }
+
+    .owl-theme .owl-dots .owl-dot.active span,
+    .owl-theme .owl-dots .owl-dot:hover span {
+        height: 13px;
+        width: 13px;
+        opacity: 1;
+        transform: translateY(2px);
+        background: #83b8e7 !important;
+    }
+
+    .search{
+        position: absolute;
+        right: 0px;
+        width: 300px;
+        padding: 10px;
+        size: 50px;
+
+    }
+
+    @media(min-width: 480.6px) and (max-width: 575.5px) {
+        .owl-carousel .owl-item .card .name {
+            left: 24%;
+        }
+    }
+
+    @media(max-width: 360px) {
+        .owl-carousel .owl-item .card .name {
+            left: 30%;
+        }
+    }
+</style>
+{% endblock style %}
+
+
+
 
 {%block content%}
-<a href = "/search">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search-heart" viewBox="0 0 16 16">
-      <path d="M6.5 4.482c1.664-1.673 5.825 1.254 0 5.018-5.825-3.764-1.664-6.69 0-5.018Z"/>
-      <path d="M13 6.5a6.471 6.471 0 0 1-1.258 3.844c.04.03.078.062.115.098l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1.007 1.007 0 0 1-.1-.115h.002A6.5 6.5 0 1 1 13 6.5ZM6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z"/>
-    </svg>
-</a>
-<a href = "/cart">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">
-      <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
-    </svg>
-</a>
-<form method='POST' action= "{% url 'home' %}">
-    {%csrf_token%}
-    <h1>{{bl.Db_Name}}</h1>
 
-    <ul>
-        {% for item in bl.book_item_set.all %}
-            <li>
+    <!--For Search and Cart Icon -->
+    <div class = "search">
+        <a href = "/search">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="black" class="bi bi-search-heart mr-3" viewBox="0 0 16 16">
+              <path d="M6.5 4.482c1.664-1.673 5.825 1.254 0 5.018-5.825-3.764-1.664-6.69 0-5.018Z"/>
+              <path d="M13 6.5a6.471 6.471 0 0 1-1.258 3.844c.04.03.078.062.115.098l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1.007 1.007 0 0 1-.1-.115h.002A6.5 6.5 0 1 1 13 6.5ZM6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z"/>
+            </svg>
+        </a>
+
+        <a href = "/cart">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="black" class="bi bi-bag ml-3" viewBox="0 0 16 16">
+              <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
+            </svg>
+        </a>
+    </div>
+
+
+    <!--For showing data on home page-->
+    <form method='POST' action= "{% url 'home' %}">
+        {%csrf_token%}
+        <h1>{{bl.Db_Name}}</h1>
+
+        <div class="owl-carousel owl-theme mt-5">
+            {% for item in bl.book_item_set.all %}
+
                 {% if item.cart_boolean == False %}
-                    <h3>{{item.booktitle}}</h3>
-                    <button name='c{{item.id}}' value='clicked' class="btn btn-outline-primary">Add to Cart</button>
+                        <div class="owl-item">
+                            <div class="card">
+                                <div class="img-card">
+                                    <img src = '{{item.image}}' alt="not loading" >
+                                </div>
+                                <div class="testimonial mt-4 mb-2">
+                                    ₹ {{item.price}}<br>
+                                    <button name='c{{item.id}}' value='clicked' class="btn btn-outline-primary">Add to Cart</button>
+                                </div>
+                                <div class="name">
+                                    {{item.booktitle}}
+                                </div>
+                            </div>
+                        </div>
+
+
                 {% elif item.cart_boolean == True %}
-                    <h3>{{item.booktitle}}</h3>
-                    <button name='m{{item.id}}' value="minus" class="btn btn-outline-danger"> - </button> {{item.count}} <button name='p{{item.id}}' value="plus" class="btn btn-outline-success"> + </button>
+                    <div class="owl-item">
+                        <div class="card">
+                            <div class="img-card">
+                                <img src= '{{item.image}}' alt="">
+                            </div>
+                            <div class="testimonial mt-4 mb-2">
+                                 ₹ {{item.price}}<br>
+                                <button name='m{{item.id}}' value="minus" class="btn btn-outline-danger"> - </button> {{item.count}} <button name='p{{item.id}}' value="plus" class="btn btn-outline-success"> + </button>
+                            </div>
+                            <div class="name">
+                                {{item.booktitle}}
+                            </div>
+                        </div>
+                    </div>
+
                 {% endif %}
-            </li>
-        {% endfor %}
+
+            {% endfor %}
+        </div>
 
 
-    </ul>
-</form>
+    </form>
+
+    <!-- For Carousel -->
+    <script>
+        $(document).ready(function () {
+            var silder = $(".owl-carousel");
+            silder.owlCarousel({
+                autoplay: false,
+                autoplayTimeout: 3000,
+                autoplayHoverPause: false,
+                items: 5,
+                stagePadding: 20,
+                center: true,
+                nav: false,
+                margin: 50,
+                dots: true,
+                loop: true,
+                responsive: {
+                    0: { items: 1 },
+                    480: { items: 2 },
+                    575: { items: 2 },
+                    768: { items: 2 },
+                    991: { items: 3 },
+                    1200: { items: 4 }
+                }
+            });
+        });
+    </script>
+
 {%endblock%}
 
 

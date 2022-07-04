@@ -4,6 +4,113 @@
     SEARCH
 {% endblock %}
 
+{% block style %}
+<style>
+    /* Importing fonts from Google */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+    /* Reseting */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        background: linear-gradient(to right, #bdc3c7 , #2c3e50);
+        min-height: 100vh;
+    }
+
+    .owl-carousel .owl-item {
+        transition: all 0.3s ease-in-out;
+    }
+
+    .owl-carousel .owl-item .card {
+        padding: 30px;
+        position: relative;
+    }
+
+    .owl-carousel .owl-stage-outer {
+        overflow-y: auto !important;
+        padding-bottom: 40px;
+    }
+
+    .owl-carousel .owl-item img {
+        height: 200px;
+        object-fit: cover;
+        border-radius: 6px;
+    }
+
+    .owl-carousel .owl-item .card .name {
+        position: absolute;
+        bottom: -20px;
+        left: 33%;
+        color: #101c81;
+        font-size: 1.1rem;
+        font-weight: 600;
+        background-color: aquamarine;
+        padding: 0.3rem 0.4rem;
+        border-radius: 5px;
+        box-shadow: 2px 3px 15px #3c405a;
+    }
+
+    .owl-carousel .owl-item .card {
+        opacity: 0.2;
+        transform: scale3d(0.8, 0.8, 0.8);
+        transition: all 0.3s ease-in-out;
+    }
+
+    .owl-carousel .owl-item.active.center .card {
+        opacity: 1;
+        transform: scale3d(1, 1, 1);
+    }
+
+    .owl-carousel .owl-dots {
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+    }
+
+    .owl-theme .owl-dots .owl-dot span {
+        height: 20px;
+        background: #2a6ba3 !important;
+        border-radius: 2px !important;
+        opacity: 0.8;
+    }
+
+    .owl-theme .owl-dots .owl-dot.active span,
+    .owl-theme .owl-dots .owl-dot:hover span {
+        height: 13px;
+        width: 13px;
+        opacity: 1;
+        transform: translateY(2px);
+        background: #83b8e7 !important;
+    }
+
+    .search{
+        position: absolute;
+        right: 0px;
+        width: 300px;
+        padding: 10px;
+        size: 50px;
+
+    }
+
+    @media(min-width: 480.6px) and (max-width: 575.5px) {
+        .owl-carousel .owl-item .card .name {
+            left: 24%;
+        }
+    }
+
+    @media(max-width: 360px) {
+        .owl-carousel .owl-item .card .name {
+            left: 30%;
+        }
+    }
+</style>
+{% endblock style %}
+
 
 {%block content%}
 <form method='POST'action= "{% url 'home' %}">
@@ -12,18 +119,72 @@
 <input id = "search_here" class="form-control mb-3" placeholder="Search here"/>
 
     <div id = "box">
-        {% for item in object_list %}
-<!--          <b>{{item}}</b><br>-->
+        <div class="owl-carousel owl-theme mt-5">
+            {% for item in object_list %}
+
                 {% if item.cart_boolean == False %}
-                    <h3>{{item.booktitle}}</h3>
-                    <button name='c{{item.id}}' value='clicked' class="btn btn-outline-primary">Add to Cart</button>
+                        <div class="owl-item">
+                            <div class="card">
+                                <div class="img-card">
+                                    <img src = '{{item.image}}' alt="">
+                                </div>
+                                <div class="testimonial mt-4 mb-2">
+                                    ₹ {{item.price}}<br>
+                                    <button name='c{{item.id}}' value='clicked' class="btn btn-outline-primary">Add to Cart</button>
+                                </div>
+                                <div class="name">
+                                    {{item.booktitle}}
+                                </div>
+                            </div>
+                        </div>
+
+
                 {% elif item.cart_boolean == True %}
-                    <h3>{{item.booktitle}}</h3>
-                    <button name='m{{item.id}}' value="minus" class="btn btn-outline-danger"> - </button> {{item.count}} <button name='p{{item.id}}' value="plus" class="btn btn-outline-success"> + </button>
+                    <div class="owl-item">
+                        <div class="card">
+                            <div class="img-card">
+                                <img src= '{{item.image}}' alt="">
+                            </div>
+                            <div class="testimonial mt-4 mb-2">
+                                {{item.booktitle}}<br>
+                                <button name='m{{item.id}}' value="minus" class="btn btn-outline-danger"> - </button> {{item.count}} <button name='p{{item.id}}' value="plus" class="btn btn-outline-success"> + </button>
+                            </div>
+                            <div class="name">
+                                {{item.booktitle}}
+                            </div>
+                        </div>
+                    </div>
+
                 {% endif %}
-        {% endfor %}
-    </div>
+
+            {% endfor %}
+        </div>
 </form>
+<script>
+ $(document).ready(function () {
+            var silder = $(".owl-carousel");
+            silder.owlCarousel({
+                autoplay: false,
+                autoplayTimeout: 3000,
+                autoplayHoverPause: false,
+                items: 5,
+                stagePadding: 20,
+                center: true,
+                nav: false,
+                margin: 50,
+                dots: true,
+                loop: true,
+                responsive: {
+                    0: { items: 1 },
+                    480: { items: 2 },
+                    575: { items: 2 },
+                    768: { items: 2 },
+                    991: { items: 3 },
+                    1200: { items: 4 }
+                }
+            });
+        });
+</script>
 
 
 {% block script %}
@@ -55,7 +216,7 @@
         console.log(item_count);
 
         if (boolean == false){
-            return `<button name='c`+item_id+`' value='clicked' class="btn btn-outline-primary" >Added to Cart</button>`
+            return `<button name='c`+item_id+`' value='clicked' class="btn btn-outline-primary" >Add to Cart</button>`
         }
         else{
             return `<button name='m`+item_id+`' value='minus' class='btn btn-outline-danger'> - </button>`+item_count+`<button name='p`+item_id+`' value='plus' class='btn btn-outline-success'> + </button>`

@@ -15,6 +15,10 @@ class Book_Item(models.Model):
     booktitle = models.CharField(max_length=500)
     cart_boolean = models.BooleanField()
     count = models.IntegerField(default=0)
+    content = models.CharField(max_length=500, default="Shut up!")
+    price = models.FloatField(default=0)
+    image = models.CharField(max_length=500, default="nikal bc!")
+
 
     def __str__(self):
         return self.booktitle
