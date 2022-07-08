@@ -116,50 +116,46 @@
 
 {%block content%}
 
-<!--    {% for message in messages %}-->
-<!--        <div class="alert alert-{{message.tags}} alter-dismissible fade show" role="alert">-->
-<!--            <strong>Message:</strong>{{message}}-->
-<!--            <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>-->
-<!--            <span aria-hidden="true">&times;</span>-->
-<!--        </div>-->
-<!--    {% endfor %}-->
+    {% comment %} {% for message in messages %}
+        <div class="alert alert-{{message.tags}} alter-dismissible fade show" role="alert">
+            <strong>Message:</strong>{{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+            <span aria-hidden="true">&times;</span>
+        </div>
+    {% endfor %} {% endcomment %}
 
 
 
 
     {% if user.is_authenticated %}
-        <h2>Hello {{fname}}</h2>
-        <button type="submit"><a href="/signout">Sign Out</a></button>
+        <h2>hello {{fname}}</h2>
+        <button type="submit"><a href="/signout">SignOut</a></button>
     {% else %}
-         <button type="submit"><a href="/signup">Sign Up</a></button>
-        <button type="submit"><a href="/signin">Sign In</a></button>
+         <button type="submit"><a href="/signup">SignUp</a></button>
+        <button type="submit"><a href="/signin">SignIn</a></button>
     {% endif %}
-    
-
 
     <!--For Search and Cart Icon -->
-    <div class = "search">
-        <a href = "/search">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="black" class="bi bi-search-heart mr-3" viewBox="0 0 16 16">
-              <path d="M6.5 4.482c1.664-1.673 5.825 1.254 0 5.018-5.825-3.764-1.664-6.69 0-5.018Z"/>
-              <path d="M13 6.5a6.471 6.471 0 0 1-1.258 3.844c.04.03.078.062.115.098l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1.007 1.007 0 0 1-.1-.115h.002A6.5 6.5 0 1 1 13 6.5ZM6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z"/>
-            </svg>
-        </a>
+<!--    <div class = "search">-->
+<!--        <a href = "/search">-->
+<!--            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="black" class="bi bi-search-heart mr-3" viewBox="0 0 16 16">-->
+<!--              <path d="M6.5 4.482c1.664-1.673 5.825 1.254 0 5.018-5.825-3.764-1.664-6.69 0-5.018Z"/>-->
+<!--              <path d="M13 6.5a6.471 6.471 0 0 1-1.258 3.844c.04.03.078.062.115.098l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1.007 1.007 0 0 1-.1-.115h.002A6.5 6.5 0 1 1 13 6.5ZM6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z"/>-->
+<!--            </svg>-->
+<!--        </a>-->
 
-        <a href = "/cart">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="black" class="bi bi-bag ml-3" viewBox="0 0 16 16">
-              <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
-            </svg>
-        </a>
-    </div>
-
+<!--        <a href = "/cart">-->
+<!--            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="black" class="bi bi-bag ml-3" viewBox="0 0 16 16">-->
+<!--              <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>-->
+<!--            </svg>-->
+<!--        </a>-->
+<!--    </div>-->
 
 
     <!--For showing data on home page-->
-    <form method='POST' action= "{% url 'home' %}">
-        <br>
+    <form method='POST' action= "{% url 'landingpage' %}">
         {%csrf_token%}
-        <h1>Books Galore</h1>
+        <h1>{{bl.Db_Name}}</h1>
 
         <div class="owl-carousel owl-theme mt-5">
             {% for item in bl.book_item_set.all %}
@@ -171,8 +167,8 @@
                                     <img src = '{{item.image}}' alt="not loading" >
                                 </div>
                                 <div class="testimonial mt-4 mb-2">
-                                    ₹ {{item.price}}<br>
-                                    <button name='c{{item.id}}' value='clicked' class="btn btn-outline-primary">Add to Cart</button>
+<!--                                    ₹ {{item.price}}<br>-->
+<!--                                    <button name='c{{item.id}}' value='clicked' class="btn btn-outline-primary">Add to Cart</button>-->
                                 </div>
                                 <div class="name">
                                     {{item.booktitle}}
@@ -188,8 +184,8 @@
                                 <img src= '{{item.image}}' alt="">
                             </div>
                             <div class="testimonial mt-4 mb-2">
-                                 ₹ {{item.price}}<br>
-                                <button name='m{{item.id}}' value="minus" class="btn btn-outline-danger"> - </button> {{item.count}} <button name='p{{item.id}}' value="plus" class="btn btn-outline-success"> + </button>
+<!--                                 ₹ {{item.price}}<br>-->
+<!--                                <button name='m{{item.id}}' value="minus" class="btn btn-outline-danger"> - </button> {{item.count}} <button name='p{{item.id}}' value="plus" class="btn btn-outline-success"> + </button>-->
                             </div>
                             <div class="name">
                                 {{item.booktitle}}
@@ -233,5 +229,6 @@
     </script>
 
 {%endblock%}
+
 
 

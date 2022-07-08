@@ -1,10 +1,13 @@
 {% extends 'main/base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title%}
+        SignIn Form
+    {%endblock%}
 
-{% block title %}
-    My Cart
-{% endblock %}
-
-{% block style %}
+    {% block style %}
 <style>
     /* Importing fonts from Google */
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
@@ -111,31 +114,25 @@
 </style>
 {% endblock style %}
 
+</head>
+<body>
+    
+    {% block content %}
+    <h2>Please Sign In</h2>
+    <br>
+    <form action = "{% url 'signin' %}" method="post">
+        {% csrf_token %}
+        <label for="">Username</label>
+        <input type="text" id="username" name="username" placeholder="Enter Username" required>
+        <br>
+        <label for="">Password</label>
+        <input type="password" id="pass1" name="pass1" placeholder="Enter Password" required>
+        <br>
+        <br>
 
+        <button type="submit"> Sign In</button><br><br><a href="/signup/"> Not a User? </a>
 
-
-
-{%block content%}
-<a href="{%url 'home'%}">Go to Home</a>
-<form method = "POST" action = "cart_update">
-    {% csrf_token %}
-    <h1>Your Cart</h1>
-
-        {% for item in bl.book_item_set.all %}
-            {% if item.cart_boolean == True %}
-                    <div class="card" style="width: 18rem;">
-                      <img src="{{item.image}}" class="card-img-top" alt="...">
-                      <div class="card-body">
-                        <h5 class="card-title">{{item.booktitle}}</h5>
-                        <p class="card-text">{{item.content}}</p>
-                        <button name='m{{item.id}}' value="minus" class="btn btn-outline-danger"> - </button> {{item.count}} <button name='p{{item.id}}' value="plus" class="btn btn-outline-success"> + </button>
-                      </div>
-                    </div><br><hr><br>
-
-            {% endif %}
-        {% endfor %}
-
-</form>
-
-
-{%endblock%}
+    </form>
+    {% endblock %}
+</body>
+</html>
